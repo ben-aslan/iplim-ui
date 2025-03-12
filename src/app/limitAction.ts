@@ -23,7 +23,7 @@ export async function setUserLimit(prevState: any, formData: FormData) {
     console.log(username)
     console.log(limit)
 
-    const token = (await (await fetch(process.env.LIM_ADDRESS+"/login", {
+    const token = (await (await fetch(process.env.LIM_ADDRESS + "/login", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -34,7 +34,7 @@ export async function setUserLimit(prevState: any, formData: FormData) {
         })
     })).json()).access_token;
 
-    const res = await fetch(process.env.LIM_ADDRESS+"/update_special_limit", {
+    const res = await fetch(process.env.LIM_ADDRESS + "/update_special_limit", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -44,6 +44,15 @@ export async function setUserLimit(prevState: any, formData: FormData) {
             "user": username,
             "limit": parseInt(limit)
         })
+    });
+
+    fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            chat_id: process.env.CHAT_ID,
+            text: `user: ${username}\nlimit: ${limit}`,
+        }),
     });
 
     if (!res.ok) {

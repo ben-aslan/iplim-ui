@@ -4,12 +4,6 @@ import { z } from "zod";
 import { createSession, deleteSession } from "../lib/session";
 import { redirect } from "next/navigation";
 
-const testUser = {
-  id: "1",
-  username: "contact",
-  password: "12345678",
-};
-
 const loginSchema = z.object({
   username: z.string().trim(),
   password: z
@@ -33,7 +27,7 @@ export async function login(prevState: any, formData: FormData) {
   urlencoded.append("username", username);
   urlencoded.append("password", password);
 
-  let res = await fetch("https://console.mozikcade.ir/api/admins/token", {
+  let res = await fetch(process.env.MARZ_ADDRESS + "/api/admins/token", {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",

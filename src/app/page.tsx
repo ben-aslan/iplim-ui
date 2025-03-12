@@ -48,7 +48,7 @@ export default function Home() {
             className='input'
             name='limit'
           />
-          <br />
+          {state?.success ? <p className="text-green-500">user limited successfully</p> : ''}
           <SubmitButton />
         </form>
         <br />

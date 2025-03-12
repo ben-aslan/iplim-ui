@@ -1,7 +1,5 @@
 'use client'
 import { useActionState, useEffect, useState } from "react";
-import { getUsers } from "./user";
-import { getCookie, setCookie } from "cookies-next";
 import { useFormStatus } from "react-dom";
 import { setUserLimit } from './limitAction'
 import { logout } from "./login/action";
@@ -16,11 +14,13 @@ export default function Home() {
   const [options, setOptions] = useState<Option[]>([]);
   const [selectedValue, setSelectedValue] = useState("");
   const [limit, setLimit] = useState("");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [state, limitAction] = useActionState(setUserLimit, undefined)
 
   useEffect(() => {
     fetch('/api/user')
       .then((res) => res.json())
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .then((data) => { console.log(data); return setOptions(data.items.map((x: any) => { return { id: x.id, value: x.username } })) })
       .catch((err) => console.error("Error fetching data:", err));
   }, []);
@@ -51,9 +51,9 @@ export default function Home() {
           <br />
           <SubmitButton />
         </form>
-          <br />
-          <br />
-          <br />
+        <br />
+        <br />
+        <br />
         <div className="flex max-w-[300px] flex-col gap-2">
           <LogoutButton />
         </div>

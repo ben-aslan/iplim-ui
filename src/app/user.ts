@@ -1,6 +1,4 @@
-import { decrypt } from "./lib/session";
 import { jwtVerify } from "jose";
-import { getCookie } from "cookies-next";
 
 export async function getUsers(token: string) {
     const secretKey = process.env.SESSION_SECRET;

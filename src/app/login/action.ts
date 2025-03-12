@@ -12,6 +12,7 @@ const loginSchema = z.object({
     .trim(),
 });
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function login(prevState: any, formData: FormData) {
   const result = loginSchema.safeParse(Object.fromEntries(formData));
 
@@ -27,7 +28,7 @@ export async function login(prevState: any, formData: FormData) {
   urlencoded.append("username", username);
   urlencoded.append("password", password);
 
-  let res = await fetch(process.env.MARZ_ADDRESS + "/api/admins/token", {
+  const res = await fetch(process.env.MARZ_ADDRESS + "/api/admins/token", {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -44,7 +45,7 @@ export async function login(prevState: any, formData: FormData) {
     };
   }
 
-  var data = await res.json()
+  const data = await res.json()
 
   console.log(data)
 

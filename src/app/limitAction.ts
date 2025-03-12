@@ -1,7 +1,6 @@
 "use server";
 
 import { z } from "zod";
-import { redirect } from "next/navigation";
 
 const loginSchema = z.object({
     username: z.string().trim(),
@@ -9,6 +8,7 @@ const loginSchema = z.object({
         .min(0, { message: "Password must be at least 8 characters" }),
 });
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function setUserLimit(prevState: any, formData: FormData) {
     const result = loginSchema.safeParse(Object.fromEntries(formData));
 
@@ -23,7 +23,7 @@ export async function setUserLimit(prevState: any, formData: FormData) {
     console.log(username)
     console.log(limit)
 
-    let token = (await (await fetch(process.env.LIM_ADDRESS+"/login", {
+    const token = (await (await fetch(process.env.LIM_ADDRESS+"/login", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -34,7 +34,7 @@ export async function setUserLimit(prevState: any, formData: FormData) {
         })
     })).json()).access_token;
 
-    let res = await fetch(process.env.LIM_ADDRESS+"/update_special_limit", {
+    const res = await fetch(process.env.LIM_ADDRESS+"/update_special_limit", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

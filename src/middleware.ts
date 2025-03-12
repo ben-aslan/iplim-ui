@@ -18,7 +18,7 @@ export default async function middleware(req: NextRequest) {
   }
 
   if (isPublicRoute && session?.username) {
-    return NextResponse.redirect(new URL("/dashboard", req.nextUrl));
+    return NextResponse.redirect(new URL("/", req.nextUrl));
   }
 
   return NextResponse.next();

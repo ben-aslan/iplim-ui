@@ -6,7 +6,7 @@ export async function getUsers(token: string) {
 
     console.log(token)
 
-    console.log(await (await fetch(process.env.MARZ_ADDRESS, {
+    console.log(await (await fetch(process.env.MARZ_ADDRESS ?? '', {
         method: "GET",
         headers: {
             "Accept": "application/json",

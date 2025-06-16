@@ -1,9 +1,8 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { cookies } from 'next/headers'
 import { decrypt } from "@/app/lib/session";
-import { NextApiRequest, NextApiResponse } from "next";
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url ?? '');
     const limit = searchParams.get('limit');
     const startIndex = searchParams.get('startIndex');

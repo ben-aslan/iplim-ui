@@ -1,5 +1,5 @@
 'use client'
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { setUserLimit } from './limitAction'
 import { logout } from "./login/action";
@@ -11,6 +11,11 @@ interface Option {
 }
 
 export default function Home() {
+  const [currentPage, setCurrentPage] = useState(1)
+  const currentPageRef = useRef(currentPage)
+  const [pageSize, setPageSize] = useState(100)
+
+
   const [options, setOptions] = useState<Option[]>([]);
   const [selectedValue, setSelectedValue] = useState("");
   const [limit, setLimit] = useState("");
@@ -18,7 +23,7 @@ export default function Home() {
   const [state, limitAction] = useActionState(setUserLimit, undefined)
 
   useEffect(() => {
-    fetch('/api/user')
+    fetch('/api/user?limit=' + pageSize + '&startIndex=' + (currentPage - 1))
       .then((res) => res.json())
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .then((data) => { console.log(data); return setOptions(data.items.map((x: any) => { return { id: x.id, value: x.username } })) })

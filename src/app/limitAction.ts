@@ -23,25 +23,27 @@ export async function setUserLimit(prevState: any, formData: FormData) {
     console.log(username)
     console.log(limit)
 
-    const token = (await (await fetch(process.env.LIM_ADDRESS + "/login", {
+    const urlencoded = new URLSearchParams();
+    urlencoded.append("username", process.env.LIM_USER ?? '');
+    urlencoded.append("password", process.env.LIM_PASSWORD ?? '');
+
+    const token = (await (await fetch(process.env.LIM_ADDRESS + "/api/auth/login", {
         method: "POST",
         headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: JSON.stringify({
-            "username": process.env.LIM_USER,
-            "password": process.env.LIM_PASSWORD
-        })
+        body: urlencoded,
+        redirect: "follow"
     })).json()).access_token;
 
-    const res = await fetch(process.env.LIM_ADDRESS + "/update_special_limit", {
+    const res = await fetch(process.env.LIM_ADDRESS + "/api/users", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
             "Authorization": "Bearer " + token
         },
         body: JSON.stringify({
-            "user": username,
+            "name": username,
             "limit": parseInt(limit)
         })
     });
